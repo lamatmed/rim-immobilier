@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useTranslations } from "next-intl";
 import { mockProperties } from "@/data/mockProperties";
 import PropertyCard from "@/components/ui/PropertyCard";
@@ -27,7 +28,7 @@ export default function FavoritesPage() {
             <HeartCrack className="w-8 h-8 text-gray-400" />
           </div>
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Aucun favori</h2>
-          <p className="text-gray-500">Vous n'avez pas encore ajouté de biens à vos favoris.</p>
+          <p className="text-gray-500"> Vous n'avez pas encore ajouté de biens à vos favoris.</p>
         </div>
       )}
     </div>
