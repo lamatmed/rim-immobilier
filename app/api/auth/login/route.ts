@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -6,6 +7,7 @@ import { login } from "@/lib/auth";
 export async function POST(request: Request) {
   try {
     const locale = request.headers.get("x-locale") === "ar" ? "ar" : "fr";
+    
     const messages = {
       fr: {
         missing: "Numéro de téléphone ou mot de passe manquant",
@@ -64,8 +66,9 @@ export async function POST(request: Request) {
     );
   } catch (error: any) {
     console.error("Login error:", error);
+    // Message d'erreur générique sans dépendre de locale
     return NextResponse.json(
-      { error: locale === "ar" ? "خطأ داخلي في الخادم" : "Erreur interne du serveur" },
+      { error: "Erreur interne du serveur" },
       { status: 500 }
     );
   }

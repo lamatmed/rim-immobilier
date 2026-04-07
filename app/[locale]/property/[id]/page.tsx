@@ -1,9 +1,7 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { MapPin, Bed, Bath, Maximize, MessageCircle } from "lucide-react";
-import { Link } from "@/i18n/routing";
 import PropertyHeaderActions from "@/components/property/PropertyHeaderActions";
 import PropertyGallery from "@/components/property/PropertyGallery";
 
@@ -14,7 +12,6 @@ export default async function PropertyPage({
 }) {
   const { id, locale } = await params;
   
-  // Fetch from database
   const property = await prisma.property.findUnique({
     where: { id },
   });
@@ -29,57 +26,32 @@ export default async function PropertyPage({
     maximumFractionDigits: 0,
   }).format(property.price);
 
-  // ✅ CONSTRUIRE LE TABLEAU COMPLET DES IMAGES
-  const allImages: string[] = [];
+  // VERSION TRÈS SIMPLE - SANS trim() NI parsing
+  const allImages = [];
   
-  // Ajouter l'image principale
-  if (property.image && property.image.trim() !== "") {
+  if (property.image) {
     allImages.push(property.image);
   }
   
-  // Ajouter toutes les images supplémentaires
   if (property.images && Array.isArray(property.images)) {
-    property.images.forEach((img: string) => {
-      if (img && img.trim() !== "") {
-        allImages.push(img);
-      }
-    });
-  }
-  
-  // Si property.images est un string JSON ou CSV, gérer ce cas
-  if (property.images && typeof property.images === 'string' && property.images.trim() !== "") {
-    try {
-      // Essayer de parser comme JSON
-      const parsed = JSON.parse(property.images);
-      if (Array.isArray(parsed)) {
-        allImages.push(...parsed.filter(img => img && img.trim() !== ""));
-      }
-    } catch {
-      // Sinon, traiter comme CSV (séparé par des virgules)
-      const splitImages = property.images.split(',').map(img => img.trim());
-      allImages.push(...splitImages.filter(img => img && img !== ""));
+    for (const img of property.images) {
+      allImages.push(img);
     }
   }
-
-  console.log("📸 Total images found:", allImages.length);
-  console.log("📸 Images:", allImages);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
       <PropertyHeaderActions />
 
-      {/* ✅ PASSER TOUTES LES IMAGES AU COMPOSANT */}
       <PropertyGallery 
         images={allImages} 
         alt={location} 
         type={property.type}
       />
 
-      {/* Content */}
       <div className="container mx-auto px-4 -mt-12 relative z-10 max-w-4xl">
         <div className="bg-white dark:bg-gray-800 rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-gray-700">
           
-          {/* Header Info */}
           <div className="mb-8">
             <div className="flex justify-between items-start mb-4">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">
@@ -98,7 +70,6 @@ export default async function PropertyPage({
             </div>
           </div>
           
-          {/* Amenities Grid */}
           <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
             <div className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-900/50 rounded-3xl border border-gray-100 dark:border-gray-800 transition-colors hover:bg-white dark:hover:bg-gray-800 hover:shadow-sm">
               <Maximize className="w-6 h-6 text-blue-500 mb-2" />
@@ -121,7 +92,6 @@ export default async function PropertyPage({
             )}
           </div>
 
-          {/* Description */}
           <div className="flex items-center gap-2 mb-4">
             <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -136,7 +106,6 @@ export default async function PropertyPage({
         </div>
       </div>
 
-      {/* Sticky Bottom CTA */}
       <div className="fixed bottom-16 sm:bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 z-40">
         <div className="container mx-auto max-w-4xl flex items-center justify-between">
           <div className="hidden sm:block">
