@@ -1,0 +1,39 @@
+{
+  "Navigation": {
+    "home": "Accueil",
+    "categories": "Agences",
+    "favorites": "Favoris",
+    "profile": "Profil"
+  },
+  "Home": {
+    "hero_title": "Trouvez le bien idéal",
+    "hero_subtitle": "La Mauritanienne du Marketing vous accompagne pour acheter ou louer des biens exclusifs.",
+    "search_placeholder": "Rechercher une maison, un terrain...",
+    "featured": "Propriétés à la Une",
+    "view_all": "Voir tout"
+  },
+  "Categories": {
+    "all": "Tout",
+    "houses": "Maisons",
+    "apartments": "Appartements",
+    "lands": "Terrains",
+    "buildings": "Immeubles"
+  },
+  "Property": {
+    "price_suffix": "MRU",
+    "beds": "Chambres",
+    "baths": "SdB",
+    "sqm": "m²",
+    "contact_agent": "Contacter l'Agent",
+    "description": "Description"
+  },
+  "Profile": {
+    "visitor": "Visiteur",
+    "login_prompt": "Connectez-vous pour plus d'options",
+    "my_info": "Mes Informations",
+    "notifications": "Notifications",
+    "settings": "Paramètres",
+    "support": "Contacter le support",
+    "logout": "Se déconnecter"
+  }
+}

@@ -1,7 +1,25 @@
-import type { NextConfig } from "next";
+import withSerwistInit from "@serwist/next";
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const nextConfig: NextConfig = {
+const withNextIntl = createNextIntlPlugin();
+
+const withSerwist = withSerwistInit({
+  swSrc: "sw.ts",
+  swDest: "public/sw.js",
+  disable: process.env.NODE_ENV !== "production",
+});
+
+const nextConfig: import("next").NextConfig = {
   /* config options here */
+  turbopack: {},
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+  },
 };
 
-export default nextConfig;
+export default withSerwist(withNextIntl(nextConfig));
