@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { mockProperties } from "@/data/mockProperties";
 import PropertyCard from "@/components/ui/PropertyCard";
+import PropertySkeleton from "@/components/ui/PropertySkeleton";
 import { Search } from "lucide-react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 
@@ -11,18 +11,42 @@ export default function HomePage() {
   const t = useTranslations("Home");
   const c = useTranslations("Categories");
   const [activeCategory, setActiveCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [properties, setProperties] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProperties() {
+      try {
+        const res = await fetch("/api/properties");
+        if (res.ok) {
+          const data = await res.json();
+          setProperties(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch properties:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProperties();
+  }, []);
 
   const categories = [
     { id: "all", name: c("all") },
-    { id: "house", name: c("houses") },
-    { id: "apartment", name: c("apartments") },
-    { id: "land", name: c("lands") },
-    { id: "building", name: c("buildings") },
+    { id: "HOUSE", name: c("houses") },
+    { id: "APARTMENT", name: c("apartments") },
+    { id: "LAND", name: c("lands") },
+    { id: "BUILDING", name: c("buildings") },
   ];
 
-  const filteredProperties = activeCategory === "all" 
-    ? mockProperties 
-    : mockProperties.filter(p => p.type === activeCategory);
+  const filteredProperties = properties.filter((p) => {
+    const matchesCategory = activeCategory === "all" || p.type === activeCategory;
+    const matchesSearch = 
+      p.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.locationAr.includes(searchQuery);
+    return matchesCategory && matchesSearch;
+  });
 
   // Animation variants
   const containerVariants: Variants = {
@@ -76,6 +100,8 @@ export default function HomePage() {
                   type="text"
                   placeholder={t("search_placeholder")}
                   className="w-full bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all shadow-md active:scale-95">
@@ -128,25 +154,33 @@ export default function HomePage() {
         </motion.div>
 
         {/* Properties Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProperties.map((property) => (
-              <motion.div 
-                key={property.id} 
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-              >
-                <PropertyCard property={property} />
-              </motion.div>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <PropertySkeleton key={i} />
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </div>
+        ) : (
+          <motion.div 
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredProperties.map((property) => (
+                <motion.div 
+                  key={property.id} 
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <PropertyCard property={property} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
       </section>
     </div>
   );

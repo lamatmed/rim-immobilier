@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id        String     @id @default(cuid())
+  phone     String     @unique
+  name      String
+  password  String
+  role      Role       @default(USER)
+  properties Property[]
+}
+
+enum PropertyType {
+  HOUSE
+  APARTMENT
+  LAND
+  BUILDING
+}
+
+model Property {
+  id          String       @id @default(cuid())
+  type        PropertyType
+  price       Float
+  location    String
+  locationAr  String
+  bedrooms    Int?
+  bathrooms   Int?
+  area        Float
+  image       String       // Cloudinary URL
+  images      String[]     // Additional Cloudinary Gallery URLs
+  featured    Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  // Admin Relation
+  userId      String
+  author      User         @relation(fields: [userId], references: [id])
+}

@@ -1,18 +1,29 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
-import { Home, Building2, Heart, User } from "lucide-react";
+import { Home, Building2, Heart, User, LogIn } from "lucide-react";
 
 export default function BottomNavigation() {
   const t = useTranslations("Navigation");
+  const tAuth = useTranslations("Auth");
   const pathname = usePathname();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then(res => res.json())
+      .then(data => setUser(data.user || null));
+  }, []);
 
   const navItems = [
     { name: t("home"), href: "/", icon: Home },
     { name: t("categories"), href: "/categories", icon: Building2 },
     { name: t("favorites"), href: "/favorites", icon: Heart },
-    { name: t("profile"), href: "/profile", icon: User },
+    user 
+      ? { name: user.name?.split(' ')[0] || t("profile"), href: "/profile", icon: User }
+      : { name: tAuth("login_button"), href: "/login", icon: LogIn },
   ];
 
   return (

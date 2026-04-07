@@ -1,15 +1,32 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter, Link } from "@/i18n/routing";
 import Image from "next/image";
-import { Globe } from "lucide-react";
+import { Globe, User, LogIn } from "lucide-react";
 
 export default function TopHeader() {
   const t = useTranslations("Navigation");
+  const tAuth = useTranslations("Auth");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("/api/auth/me", { cache: "no-store", signal: controller.signal })
+      .then((res) => res.json())
+      .then((data) => setUser(data.user || null))
+      .catch((err) => {
+        // ignore abort errors during fast navigations
+        if (err?.name !== "AbortError") setUser(null);
+      });
+
+    return () => controller.abort();
+  }, [pathname]);
 
   const toggleLanguage = () => {
     const nextLocale = locale === "ar" ? "fr" : "ar";
@@ -45,9 +62,18 @@ export default function TopHeader() {
           <Link href="/favorites" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">
             {t("favorites")}
           </Link>
-          <Link href="/profile" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">
-            {t("profile")}
-          </Link>
+          
+          {user ? (
+            <Link href="/profile" className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-bold transition-colors">
+              <User className="w-4 h-4" />
+              {user.name || t("profile")}
+            </Link>
+          ) : (
+            <Link href="/login" className="flex items-center gap-1.5 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">
+              <LogIn className="w-4 h-4" />
+              {tAuth("login_button")}
+            </Link>
+          )}
         </nav>
 
         {/* Actions Section */}

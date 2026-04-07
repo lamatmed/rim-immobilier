@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import "../globals.css";
 import TopHeader from "@/components/layout/TopHeader";
 import BottomNavigation from "@/components/layout/BottomNavigation";
+import WhatsAppButton from "@/components/layout/WhatsAppButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,20 +36,16 @@ export default async function RootLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html
-      lang={locale}
+    <div
       dir={locale === 'ar' ? 'rtl' : 'ltr'}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 pb-16 sm:pb-0 antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 pb-16 sm:pb-0">
-        <NextIntlClientProvider messages={messages}>
-          <TopHeader />
-          <main className="flex-1 overflow-x-hidden">
-            {children}
-          </main>
-          <BottomNavigation />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+      <NextIntlClientProvider messages={messages}>
+        <TopHeader />
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">{children}</main>
+        <BottomNavigation />
+        <WhatsAppButton />
+      </NextIntlClientProvider>
+    </div>
   );
 }

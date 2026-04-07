@@ -34,6 +34,36 @@
     "notifications": "الإشعارات",
     "settings": "الإعدادات",
     "support": "اتصل بالدعم",
-    "logout": "تسجيل الخروج"
+    "admin_dashboard": "لوحة تحكم المدير",
+    "logout": "تسجيل الخروج",
+    "success_logout": "تم تسجيل الخروج… جاري التحويل"
+  },
+  "Auth": {
+    "login_title": "تسجيل الدخول",
+    "signup_title": "إنشاء حساب",
+    "name": "الاسم الكامل",
+    "phone": "رقم الهاتف",
+    "password": "كلمة المرور",
+    "login_button": "دخول",
+    "signup_button": "تسجيل",
+    "no_account": "ليس لديك حساب؟",
+    "has_account": "لديك حساب بالفعل؟",
+    "success_signup": "تم إنشاء الحساب بنجاح! قم بتسجيل الدخول.",
+    "success_login": "تم تسجيل الدخول بنجاح… جاري التحويل",
+    "error_login": "بيانات الدخول غير صحيحة"
+  },
+  "Admin": {
+    "add_property_title": "إضافة عقار",
+    "type": "نوع العقار",
+    "price": "السعر (أوقية)",
+    "location": "الموقع (فرنسي)",
+    "location_ar": "الموقع (عربي)",
+    "area": "المساحة (م²)",
+    "bedrooms": "الغرف",
+    "bathrooms": "الحمامات",
+    "featured": "إضافة للعقارات المميزة",
+    "upload_image": "رفع صورة",
+    "submit": "حفظ العقار",
+    "success": "تمت إضافة العقار بنجاح!"
   }
 }

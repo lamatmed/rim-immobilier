@@ -34,6 +34,36 @@
     "notifications": "Notifications",
     "settings": "Paramètres",
     "support": "Contacter le support",
-    "logout": "Se déconnecter"
+    "admin_dashboard": "Tableau de Bord Admin",
+    "logout": "Se déconnecter",
+    "success_logout": "Déconnecté. Redirection…"
+  },
+  "Auth": {
+    "login_title": "Connexion",
+    "signup_title": "Créer un compte",
+    "name": "Nom complet",
+    "phone": "Numéro de téléphone",
+    "password": "Mot de passe",
+    "login_button": "Se connecter",
+    "signup_button": "S'inscrire",
+    "no_account": "Vous n'avez pas encore de compte ?",
+    "has_account": "Vous avez déjà un compte ?",
+    "success_signup": "Compte créé avec succès ! Connectez-vous.",
+    "success_login": "Connexion réussie. Redirection…",
+    "error_login": "Identifiants invalides"
+  },
+  "Admin": {
+    "add_property_title": "Ajouter un bien",
+    "type": "Type de bien",
+    "price": "Prix (MRU)",
+    "location": "Localisation (FR)",
+    "location_ar": "Localisation (AR)",
+    "area": "Superficie (m²)",
+    "bedrooms": "Chambres",
+    "bathrooms": "Salles de bain",
+    "featured": "Mettre à la Une",
+    "upload_image": "Envoyer une photo",
+    "submit": "Enregistrer le bien",
+    "success": "Bien ajouté avec succès !"
   }
 }

@@ -17,6 +17,11 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
   // Mapping internal type to translation keys
   const typeMapping: Record<string, string> = {
+    HOUSE: "houses",
+    APARTMENT: "apartments",
+    LAND: "lands",
+    BUILDING: "buildings",
+    // Compatibility for mock data during transition
     house: "houses",
     apartment: "apartments",
     land: "lands",
