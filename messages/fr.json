@@ -106,6 +106,18 @@
     "upload_image": "Envoyer une photo",
     "submit": "Enregistrer le bien",
     "save": "Enregistrer les modifications",
-    "success": "Bien ajouté avec succès !"
+    "success": "Bien ajouté avec succès !",
+      "users_subtitle": "Afficher, supprimer et gérer les rôles des utilisateurs",
+    "stats_total": "Total",
+    "stats_admins": "Administrateurs",
+    "stats_users": "Utilisateurs",
+    "search_title": "Rechercher",
+    "search_subtitle": "Filtrer les utilisateurs par numéro de téléphone",
+    "results_count": "{count} utilisateur(s) trouvé(s)",
+    "active_filter": "Filtre",
+    "empty_title": "Aucun utilisateur trouvé",
+    "empty_search_description": "Aucun utilisateur ne correspond à ce numéro de téléphone",
+    "empty_description": "La liste des utilisateurs est vide",
+    "clear_filter_button": "Effacer le filtre"
   }
 }

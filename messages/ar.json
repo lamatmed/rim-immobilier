@@ -106,6 +106,18 @@
     "upload_image": "رفع صورة",
     "submit": "حفظ العقار",
     "save": "حفظ التعديلات",
-    "success": "تمت إضافة العقار بنجاح!"
+    "success": "تمت إضافة العقار بنجاح!",
+      "users_subtitle": "عرض المستخدمين وحذفهم وإدارة الأدوار",
+    "stats_total": "الإجمالي",
+    "stats_admins": "المدراء",
+    "stats_users": "المستخدمين",
+    "search_title": "بحث",
+    "search_subtitle": "تصفية المستخدمين حسب رقم الهاتف",
+    "results_count": "{count} مستخدم تم العثور عليه",
+    "active_filter": "فلتر",
+    "empty_title": "لم يتم العثور على مستخدمين",
+    "empty_search_description": "لا يوجد مستخدمين مطابقين لرقم الهاتف هذا",
+    "empty_description": "قائمة المستخدمين فارغة",
+    "clear_filter_button": "مسح الفلتر"
   }
 }
