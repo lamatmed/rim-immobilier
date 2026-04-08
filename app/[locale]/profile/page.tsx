@@ -1,26 +1,27 @@
 import { getTranslations } from "next-intl/server";
-import { User, Settings, Bell, ChevronRight, LogIn, MessageCircle } from "lucide-react";
+import { User, ChevronRight, LogIn, MessageCircle, LayoutDashboard } from "lucide-react";
 import { getSession } from "@/lib/auth";
 import { Link } from "@/i18n/routing";
 import LogoutButton from "@/components/auth/LogoutButton";
-import { redirect } from "next/navigation";
+import ProfileUpdateForm from "@/components/profile/ProfileUpdateForm";
 
-export default async function ProfilePage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function ProfilePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ tab?: string }>;
+}) {
   const { locale } = await params;
+  const sp = (await searchParams) ?? {};
+  const activeTab = sp.tab ?? "";
   const tNav = await getTranslations({ locale, namespace: "Navigation" });
   const t = await getTranslations({ locale, namespace: "Profile" });
   const tAuth = await getTranslations({ locale, namespace: "Auth" });
   const session = await getSession();
-  const isAdmin = session?.role === "ADMIN";
-
-  if (isAdmin) {
-    redirect(`/${locale}/admin/dashboard`);
-  }
 
   const menuItems = [
-    { icon: User, label: t("my_info"), href: "#" },
-    { icon: Bell, label: t("notifications"), href: "#" },
-    { icon: Settings, label: t("settings"), href: "#" },
+    { icon: User, label: t("my_info"), href: "/profile?tab=info" },
     { icon: MessageCircle, label: t("support"), href: `https://wa.me/22230572816?text=${encodeURIComponent(locale === "ar" ? "مرحباً، أحتاج إلى مساعدة." : "Bonjour, j'ai besoin d'aide.")}` },
   ];
 
@@ -53,6 +54,16 @@ export default async function ProfilePage({ params }: { params: Promise<{ locale
         </div>
       </div>
 
+      {session?.role === "ADMIN" ? (
+        <Link
+          href="/admin/dashboard"
+          className="w-full flex items-center justify-center gap-2 p-5 mb-8 bg-blue-600 text-white rounded-3xl font-extrabold shadow-lg shadow-blue-200 dark:shadow-none transition-all hover:bg-blue-700 active:scale-[0.98]"
+        >
+          <LayoutDashboard className="w-5 h-5" />
+          {t("admin_dashboard")}
+        </Link>
+      ) : null}
+
       {/* Menu List */}
       <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-8">
         {menuItems.map((item, index) => {
@@ -80,6 +91,10 @@ export default async function ProfilePage({ params }: { params: Promise<{ locale
           );
         })}
       </div>
+
+      {session && activeTab === "info" ? (
+        <ProfileUpdateForm initialName={session.name} initialPhone={session.phone} />
+      ) : null}
 
       {/* Auth CTA */}
       {session ? (

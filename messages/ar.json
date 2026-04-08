@@ -36,7 +36,14 @@
     "support": "اتصل بالدعم",
     "admin_dashboard": "لوحة تحكم المدير",
     "logout": "تسجيل الخروج",
-    "success_logout": "تم تسجيل الخروج… جاري التحويل"
+    "success_logout": "تم تسجيل الخروج… جاري التحويل",
+    "edit_profile": "تعديل معلوماتي",
+    "new_password": "كلمة مرور جديدة",
+    "new_password_placeholder": "اتركه فارغًا للاحتفاظ بالحالية",
+    "save_profile": "حفظ معلوماتي",
+    "cancel_profile": "إلغاء",
+    "update_success": "تم تحديث الملف الشخصي بنجاح.",
+    "update_failed": "تعذر تحديث الملف الشخصي."
   },
   "Auth": {
     "login_title": "تسجيل الدخول",

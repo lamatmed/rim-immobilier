@@ -36,7 +36,14 @@
     "support": "Contacter le support",
     "admin_dashboard": "Tableau de Bord Admin",
     "logout": "Se déconnecter",
-    "success_logout": "Déconnecté. Redirection…"
+    "success_logout": "Déconnecté. Redirection…",
+    "edit_profile": "Modifier mes informations",
+    "new_password": "Nouveau mot de passe",
+    "new_password_placeholder": "Laisser vide pour garder l'actuel",
+    "save_profile": "Enregistrer mes informations",
+    "cancel_profile": "Annuler",
+    "update_success": "Profil mis à jour avec succès.",
+    "update_failed": "Impossible de mettre à jour le profil."
   },
   "Auth": {
     "login_title": "Connexion",

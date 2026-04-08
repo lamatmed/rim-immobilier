@@ -113,7 +113,7 @@ export default async function PropertyPage({
             <p className="font-bold text-lg text-gray-900 dark:text-white">{formattedPrice} {t("price_suffix")}</p>
           </div>
           <a
-            href={`https://wa.me/22230572816?text=${encodeURIComponent(
+            href={`https://wa.me/22247095877?text=${encodeURIComponent(
               locale === "ar" 
                 ? `مرحباً، أنا مهتم بهذا العقار: ${location} (${id})`
                 : `Bonjour, je suis intéressé par ce bien : ${location} (${id})`
