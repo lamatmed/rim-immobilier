@@ -1,14 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useTranslations } from "next-intl";
-import { mockProperties } from "@/data/mockProperties";
+import { getTranslations } from "next-intl/server";
+import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/ui/PropertyCard";
 import { HeartCrack } from "lucide-react";
 
-export default function FavoritesPage() {
-  const t = useTranslations("Navigation");
-  
-  // For demo: Show only featured properties as "favorites"
-  const favoriteProperties = mockProperties.filter(p => p.featured);
+export default async function FavoritesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Navigation" });
+
+  const favoriteProperties = await prisma.property.findMany({
+    where: { featured: true },
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <div className="container mx-auto px-4 py-8 pb-24">

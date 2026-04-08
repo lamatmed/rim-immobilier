@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { User, Settings, Bell, LogOut, ChevronRight, LayoutDashboard, LogIn, MessageCircle } from "lucide-react";
+import { User, Settings, Bell, ChevronRight, LogIn, MessageCircle } from "lucide-react";
 import { getSession } from "@/lib/auth";
 import { Link } from "@/i18n/routing";
 import LogoutButton from "@/components/auth/LogoutButton";
+import { redirect } from "next/navigation";
 
 export default async function ProfilePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -11,6 +12,10 @@ export default async function ProfilePage({ params }: { params: Promise<{ locale
   const tAuth = await getTranslations({ locale, namespace: "Auth" });
   const session = await getSession();
   const isAdmin = session?.role === "ADMIN";
+
+  if (isAdmin) {
+    redirect(`/${locale}/admin/dashboard`);
+  }
 
   const menuItems = [
     { icon: User, label: t("my_info"), href: "#" },
@@ -47,17 +52,6 @@ export default async function ProfilePage({ params }: { params: Promise<{ locale
           </div>
         </div>
       </div>
-
-      {/* Admin CTA */}
-      {isAdmin && (
-        <Link
-          href="/admin/add-property"
-          className="w-full flex items-center justify-center gap-2 p-5 mb-8 bg-blue-600 text-white rounded-3xl font-extrabold shadow-lg shadow-blue-200 dark:shadow-none transition-all hover:bg-blue-700 active:scale-[0.98]"
-        >
-          <LayoutDashboard className="w-5 h-5" />
-          {t("admin_dashboard")}
-        </Link>
-      )}
 
       {/* Menu List */}
       <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-8">

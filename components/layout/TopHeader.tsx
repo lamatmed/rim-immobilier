@@ -43,6 +43,7 @@ export default function TopHeader() {
               src="/icon-192x192.png"
               alt="Logo"
               fill
+              sizes="40px"
               className="object-cover"
             />
           </div>

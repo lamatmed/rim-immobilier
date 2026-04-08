@@ -4,10 +4,21 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { MapPin, Bed, Bath, Maximize } from "lucide-react";
-import { Property } from "@/data/mockProperties";
+import type { PropertyType } from "@prisma/client";
 
 interface PropertyCardProps {
-  property: Property;
+  property: {
+    id: string;
+    type: PropertyType | string;
+    price: number;
+    location: string;
+    locationAr: string;
+    bedrooms?: number | null;
+    bathrooms?: number | null;
+    area: number;
+    image: string;
+    featured?: boolean;
+  };
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {

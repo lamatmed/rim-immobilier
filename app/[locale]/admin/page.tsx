@@ -6,6 +6,6 @@ export default async function AdminIndexPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  redirect(`/${locale}/admin/add-property`);
+  redirect(`/${locale}/admin/dashboard`);
 }
 

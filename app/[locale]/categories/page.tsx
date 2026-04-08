@@ -1,33 +1,60 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Building2, Home, Map, Building } from "lucide-react";
-import { mockProperties } from "@/data/mockProperties";
+import { prisma } from "@/lib/prisma";
+import type { PropertyType } from "@prisma/client";
 
-export default function CategoriesPage() {
-  const t = useTranslations("Categories");
+export default async function CategoriesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Categories" });
 
-  const categoryCards = [
+  const rows = await prisma.property.groupBy({
+    by: ["type"],
+    _count: { _all: true },
+  });
+
+  const counts: Record<PropertyType, number> = {
+    HOUSE: 0,
+    APARTMENT: 0,
+    LAND: 0,
+    BUILDING: 0,
+  };
+
+  for (const r of rows) {
+    counts[r.type] = r._count._all;
+  }
+
+  const categoryCards: Array<{
+    title: string;
+    icon: React.ComponentType<{ className?: string }>;
+    count: number;
+    color: string;
+  }> = [
     { 
       title: t("buildings"), 
       icon: Building, 
-      count: mockProperties.filter(p => p.type === "building").length, 
+      count: counts.BUILDING, 
       color: "bg-blue-500" 
     },
     { 
       title: t("houses"), 
       icon: Home, 
-      count: mockProperties.filter(p => p.type === "house").length, 
+      count: counts.HOUSE, 
       color: "bg-emerald-500" 
     },
     { 
       title: t("lands"), 
       icon: Map, 
-      count: mockProperties.filter(p => p.type === "land").length, 
+      count: counts.LAND, 
       color: "bg-orange-500" 
     },
     { 
       title: t("apartments"), 
       icon: Building2, 
-      count: mockProperties.filter(p => p.type === "apartment").length, 
+      count: counts.APARTMENT, 
       color: "bg-purple-500" 
     },
   ];
