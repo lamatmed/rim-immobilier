@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { motion } from "framer-motion";
-import { User, Phone, Lock, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { User, Phone, Lock, ArrowRight, Loader2, CheckCircle2, UserPlus } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
 export default function SignupPage() {
@@ -65,18 +66,21 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 backdrop-blur-xl">
+        <div className="bg-white/95 dark:bg-gray-800/95 rounded-3xl p-8 shadow-2xl border border-gray-100 dark:border-gray-700 backdrop-blur-xl">
           <div className="text-center mb-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/30">
+              <UserPlus className="w-8 h-8" />
+            </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               {t("signup_title")}
             </h1>
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
               {t("no_account")}
             </p>
           </div>
@@ -100,7 +104,7 @@ export default function SignupPage() {
                   type="text"
                   required
                   placeholder="Mohamed Mahmoud"
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white rtl:pl-4 rtl:pr-11"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all dark:text-white rtl:pl-4 rtl:pr-11"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
@@ -119,7 +123,7 @@ export default function SignupPage() {
                   type="text"
                   required
                   placeholder="22200000"
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white rtl:pl-4 rtl:pr-11"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all dark:text-white rtl:pl-4 rtl:pr-11"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />
@@ -138,7 +142,7 @@ export default function SignupPage() {
                   type="password"
                   required
                   placeholder="••••••••"
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white rtl:pl-4 rtl:pr-11"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all dark:text-white rtl:pl-4 rtl:pr-11"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
@@ -148,7 +152,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-70"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98] hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-70"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

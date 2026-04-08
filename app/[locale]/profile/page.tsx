@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getTranslations } from "next-intl/server";
 import { User, ChevronRight, LogIn, MessageCircle, LayoutDashboard } from "lucide-react";
 import { getSession } from "@/lib/auth";

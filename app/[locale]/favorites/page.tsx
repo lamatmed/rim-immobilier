@@ -1,21 +1,35 @@
-/* eslint-disable react/no-unescaped-entities */
-import { getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import PropertyCard from "@/components/ui/PropertyCard";
 import { HeartCrack } from "lucide-react";
 
-export default async function FavoritesPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Navigation" });
+export default function FavoritesPage() {
+  const t = useTranslations("Navigation");
+  const tFav = useTranslations("Favorites");
+  const [favoriteProperties, setFavoriteProperties] = useState<any[]>([]);
 
-  const favoriteProperties = await prisma.property.findMany({
-    where: { featured: true },
-    orderBy: { createdAt: "desc" },
-  });
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch("/api/favorites", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        setFavoriteProperties(Array.isArray(data?.items) ? data.items : []);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setFavoriteProperties([]);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8 pb-24">
@@ -34,8 +48,10 @@ export default async function FavoritesPage({
           <div className="w-16 h-16 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-4">
             <HeartCrack className="w-8 h-8 text-gray-400" />
           </div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Aucun favori</h2>
-          <p className="text-gray-500"> Vous n'avez pas encore ajouté de biens à vos favoris.</p>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            {tFav("empty_title")}
+          </h2>
+          <p className="text-gray-500">{tFav("empty_description")}</p>
         </div>
       )}
     </div>

@@ -10,7 +10,9 @@
     "hero_subtitle": "La Mauritanienne du Marketing vous accompagne pour acheter ou louer des biens exclusifs.",
     "search_placeholder": "Rechercher une maison, un terrain...",
     "featured": "Propriétés à la Une",
-    "view_all": "Voir tout"
+    "view_all": "Voir tout",
+    "whatsapp_message": "Bonjour, je suis intéressé par l'un de vos biens immobiliers.",
+    "contact_whatsapp_aria": "Nous contacter sur WhatsApp"
   },
   "Categories": {
     "all": "Tout",
@@ -19,6 +21,10 @@
     "lands": "Terrains",
     "buildings": "Immeubles",
     "listings": "annonces"
+  },
+  "Favorites": {
+    "empty_title": "Aucun favori",
+    "empty_description": "Vous n'avez pas encore ajouté de biens à vos favoris."
   },
   "Property": {
     "price_suffix": "MRU",

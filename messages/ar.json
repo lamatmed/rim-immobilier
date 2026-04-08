@@ -10,7 +10,9 @@
     "hero_subtitle": "الشركة الموريتانية للتسويق ترافقك في شراء أو تأجير عقارات حصرية.",
     "search_placeholder": "ابحث عن منزل، قطعة أرض...",
     "featured": "عقارات مميزة",
-    "view_all": "عرض الكل"
+    "view_all": "عرض الكل",
+    "whatsapp_message": "مرحبًا، أنا مهتم بأحد عقاراتكم.",
+    "contact_whatsapp_aria": "تواصل معنا عبر واتساب"
   },
   "Categories": {
     "all": "الكل",
@@ -19,6 +21,10 @@
     "lands": "أراضي",
     "buildings": "عمارات",
     "listings": "إعلانات"
+  },
+  "Favorites": {
+    "empty_title": "لا توجد مفضلات",
+    "empty_description": "لم تقم بإضافة أي عقار إلى المفضلة بعد."
   },
   "Property": {
     "price_suffix": "أوقية",
