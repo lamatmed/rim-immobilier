@@ -12,17 +12,34 @@ export default function BottomNavigation() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    fetch("/api/auth/me")
-      .then(res => res.json())
-      .then(data => setUser(data.user || null));
-  }, []);
+    const controller = new AbortController();
+
+    const fetchUser = () => {
+      fetch("/api/auth/me", { cache: "no-store", signal: controller.signal })
+        .then((res) => res.json())
+        .then((data) => setUser(data.user || null))
+        .catch((err) => {
+          if (err?.name !== "AbortError") setUser(null);
+        });
+    };
+
+    fetchUser();
+
+    const onAuthChanged = () => fetchUser();
+    window.addEventListener("auth-changed", onAuthChanged);
+
+    return () => {
+      controller.abort();
+      window.removeEventListener("auth-changed", onAuthChanged);
+    };
+  }, [pathname]);
 
   const navItems = [
     { name: t("home"), href: "/", icon: Home },
     { name: t("categories"), href: "/categories", icon: Building2 },
     { name: t("favorites"), href: "/favorites", icon: Heart },
-    user 
-      ? { name: user.name?.split(' ')[0] || t("profile"), href: "/profile", icon: User }
+    user
+      ? { name: user.name?.split(" ")[0] || t("profile"), href: "/profile", icon: User }
       : { name: tAuth("login_button"), href: "/login", icon: LogIn },
   ];
 
