@@ -39,6 +39,7 @@ export default function LoginPage() {
       }
 
       setSuccess(t("success_login"));
+      window.dispatchEvent(new Event("auth-changed"));
       router.refresh();
       setTimeout(() => {
         router.push("/");

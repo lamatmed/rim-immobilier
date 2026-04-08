@@ -23,6 +23,7 @@ export default function LogoutButton({
     try {
       await fetch("/api/auth/logout", { method: "POST" });
       setSuccess(tProfile("success_logout"));
+      window.dispatchEvent(new Event("auth-changed"));
       router.refresh();
       setTimeout(() => {
         router.push("/");

@@ -16,16 +16,25 @@ export default function TopHeader() {
 
   useEffect(() => {
     const controller = new AbortController();
+    const fetchUser = () => {
+      fetch("/api/auth/me", { cache: "no-store", signal: controller.signal })
+        .then((res) => res.json())
+        .then((data) => setUser(data.user || null))
+        .catch((err) => {
+          // ignore abort errors during fast navigations
+          if (err?.name !== "AbortError") setUser(null);
+        });
+    };
 
-    fetch("/api/auth/me", { cache: "no-store", signal: controller.signal })
-      .then((res) => res.json())
-      .then((data) => setUser(data.user || null))
-      .catch((err) => {
-        // ignore abort errors during fast navigations
-        if (err?.name !== "AbortError") setUser(null);
-      });
+    fetchUser();
 
-    return () => controller.abort();
+    const onAuthChanged = () => fetchUser();
+    window.addEventListener("auth-changed", onAuthChanged);
+
+    return () => {
+      controller.abort();
+      window.removeEventListener("auth-changed", onAuthChanged);
+    };
   }, [pathname]);
 
   const toggleLanguage = () => {
@@ -79,6 +88,24 @@ export default function TopHeader() {
 
         {/* Actions Section */}
         <div className="flex items-center gap-3">
+          {user ? (
+            <Link
+              href="/profile"
+              className="md:hidden flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-bold transition-colors"
+            >
+              <User className="w-4 h-4" />
+              {user.name || t("profile")}
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="md:hidden flex items-center gap-1.5 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
+            >
+              <LogIn className="w-4 h-4" />
+              {tAuth("login_button")}
+            </Link>
+          )}
+
           <button
             onClick={toggleLanguage}
             className="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm font-medium"
