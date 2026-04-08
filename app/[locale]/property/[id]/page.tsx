@@ -1,24 +1,94 @@
-import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
-import { MapPin, Bed, Bath, Maximize, MessageCircle } from "lucide-react";
+
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { MapPin, Bed, Bath, Maximize, MessageCircle, Heart } from "lucide-react";
 import PropertyHeaderActions from "@/components/property/PropertyHeaderActions";
 import PropertyGallery from "@/components/property/PropertyGallery";
+import PropertySkeleton from "@/components/property/PropertySkeleton";
 
-export default async function PropertyPage({
-  params,
-}: {
-  params: Promise<{ id: string; locale: string }>;
-}) {
-  const { id, locale } = await params;
+interface Property {
+  id: string;
+  type: string;
+  price: number;
+  location: string;
+  locationAr: string;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  area: number;
+  image: string | null;
+  images: string[];
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export default function PropertyPage() {
+  const params = useParams();
+  const propertyId = params.id as string;
+  const locale = params.locale as string;
   
-  const property = await prisma.property.findUnique({
-    where: { id },
-  });
+  const t = useTranslations("Property");
+  const [property, setProperty] = useState<Property | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!property) return notFound();
+  useEffect(() => {
+    let cancelled = false;
 
-  const t = await getTranslations({ locale, namespace: "Property" });
+    fetch(`/api/properties/${propertyId}`, { cache: "no-store" })
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status === 404) throw new Error("Not found");
+          throw new Error("Failed to fetch");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (cancelled) return;
+        if (data?.property) {
+          setProperty(data.property);
+        } else {
+          setError(true);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        console.error("Error fetching property:", err);
+        setError(true);
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [propertyId]);
+
+  if (loading) {
+    return <PropertySkeleton />;
+  }
+
+  if (error || !property) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            {locale === "ar" ? "عقار غير موجود" : "Propriété non trouvée"}
+          </h2>
+          <p className="text-gray-500">
+            {locale === "ar" 
+              ? "العقار الذي تبحث عنه غير موجود أو تم حذفه"
+              : "La propriété que vous recherchez n'existe pas ou a été supprimée"}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const location = locale === "ar" ? property.locationAr : property.location;
   
   const formattedPrice = new Intl.NumberFormat(locale, {
@@ -26,8 +96,8 @@ export default async function PropertyPage({
     maximumFractionDigits: 0,
   }).format(property.price);
 
-  // VERSION TRÈS SIMPLE - SANS trim() NI parsing
-  const allImages = [];
+  // Build images array
+  const allImages: string[] = [];
   
   if (property.image) {
     allImages.push(property.image);
@@ -57,6 +127,9 @@ export default async function PropertyPage({
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">
                 {formattedPrice} <span className="text-blue-600 text-xl">{t("price_suffix")}</span>
               </h1>
+              <button className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                <Heart className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              </button>
             </div>
             
             <div className="flex items-start gap-3 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-3xl border border-blue-100/50 dark:border-blue-800/50 shadow-sm">
@@ -64,8 +137,12 @@ export default async function PropertyPage({
                 <MapPin className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-blue-600/60 uppercase tracking-widest mb-0.5">{locale === "ar" ? "الموقع" : "Localisation"}</p>
-                <p className="text-lg font-extrabold text-gray-900 dark:text-white leading-snug break-words">{location}</p>
+                <p className="text-[10px] font-bold text-blue-600/60 uppercase tracking-widest mb-0.5">
+                  {locale === "ar" ? "الموقع" : "Localisation"}
+                </p>
+                <p className="text-lg font-extrabold text-gray-900 dark:text-white leading-snug break-words">
+                  {location}
+                </p>
               </div>
             </div>
           </div>
@@ -110,13 +187,15 @@ export default async function PropertyPage({
         <div className="container mx-auto max-w-4xl flex items-center justify-between">
           <div className="hidden sm:block">
             <p className="text-sm text-gray-500 dark:text-gray-400">Prix demandé</p>
-            <p className="font-bold text-lg text-gray-900 dark:text-white">{formattedPrice} {t("price_suffix")}</p>
+            <p className="font-bold text-lg text-gray-900 dark:text-white">
+              {formattedPrice} {t("price_suffix")}
+            </p>
           </div>
           <a
             href={`https://wa.me/22247095877?text=${encodeURIComponent(
               locale === "ar" 
-                ? `مرحباً، أنا مهتم بهذا العقار: ${location} (${id})`
-                : `Bonjour, je suis intéressé par ce bien : ${location} (${id})`
+                ? `مرحباً، أنا مهتم بهذا العقار: ${location} (${property.id})`
+                : `Bonjour, je suis intéressé par ce bien : ${location} (${property.id})`
             )}`}
             target="_blank"
             rel="noopener noreferrer"

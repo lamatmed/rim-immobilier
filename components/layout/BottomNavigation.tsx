@@ -40,7 +40,7 @@ export default function BottomNavigation() {
     { name: t("categories"), href: "/categories", icon: Building2 },
     { name: t("favorites"), href: "/favorites", icon: Heart },
     user
-      ? { name: user.name?.split(" ")[0] || t("profile"), href: "/profile", icon: User }
+      ? { name:  t("profile"), href: "/profile", icon: User }
       : { name: tAuth("login_button"), href: "/login", icon: LogIn },
   ];
 

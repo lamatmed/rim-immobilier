@@ -77,7 +77,7 @@ export default function TopHeader() {
           {user ? (
             <Link href="/profile" className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-bold transition-colors">
               <User className="w-4 h-4" />
-              {user.name || t("profile")}
+              { t("profile")}
             </Link>
           ) : (
             <Link href="/login" className="flex items-center gap-1.5 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">

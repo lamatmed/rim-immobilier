@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import type { PropertyType } from "@prisma/client";
 
-const ALL_TYPES: PropertyType[] = ["HOUSE", "APARTMENT", "LAND", "BUILDING"];
+
 
 export async function GET() {
   try {
