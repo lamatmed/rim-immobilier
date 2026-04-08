@@ -86,7 +86,7 @@ export default function TopHeader() {
           >
             <Globe className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             <span className="text-gray-700 dark:text-gray-200 uppercase">
-              {locale === "ar" ? "FR" : "AR"}
+              {locale === "ar" ? "FR" : "عر"}
             </span>
           </button>
         </div>

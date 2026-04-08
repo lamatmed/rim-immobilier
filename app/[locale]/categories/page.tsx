@@ -74,7 +74,9 @@ export default async function CategoriesPage({
                 <IconComponent className="w-7 h-7" />
               </div>
               <h2 className="font-semibold text-gray-900 dark:text-white mb-1">{cat.title}</h2>
-              <p className="text-sm text-gray-500">{cat.count} annonces</p>
+              <p className="text-sm text-gray-500">
+                {cat.count} {t("listings")}
+              </p>
             </div>
           );
         })}

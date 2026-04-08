@@ -17,7 +17,8 @@
     "houses": "منازل",
     "apartments": "شقق",
     "lands": "أراضي",
-    "buildings": "عمارات"
+    "buildings": "عمارات",
+    "listings": "إعلانات"
   },
   "Property": {
     "price_suffix": "أوقية",
