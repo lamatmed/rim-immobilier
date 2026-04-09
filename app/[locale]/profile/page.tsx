@@ -93,10 +93,14 @@ export default async function ProfilePage({
         })}
       </div>
 
-      {session && activeTab === "info" ? (
-        <ProfileUpdateForm initialName={session.name} initialPhone={session.phone} />
-      ) : null}
-
+     {session && activeTab === "info" && (
+  <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-3xl p-6 shadow-2xl z-50">
+    <ProfileUpdateForm
+      initialName={session.name}
+      initialPhone={session.phone}
+    />
+  </div>
+)}
       {/* Auth CTA */}
       {session ? (
         <LogoutButton locale={locale} label={t("logout")} />
