@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -105,7 +106,7 @@ export default function AddPropertyPage() {
         >
           <CheckCircle className="w-20 h-20 text-emerald-500 mx-auto mb-6" />
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("success")}</h2>
-          <p className="text-gray-500">Publication de l'annonce...</p>
+          
         </motion.div>
       </div>
     );
@@ -272,9 +273,7 @@ export default function AddPropertyPage() {
                     {formData.image && (
                       <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border-2 border-blue-200 group">
                         <Image src={formData.image} alt="Main image" fill className="object-cover" />
-                        <div className="absolute top-3 left-3 bg-blue-600 text-white text-xs font-extrabold px-3 py-1 rounded-full shadow">
-                          Principale
-                        </div>
+                        
                         <div className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <button
                             type="button"
@@ -363,20 +362,15 @@ export default function AddPropertyPage() {
                           <ImageIcon className="w-8 h-8 text-gray-500 group-hover:text-blue-600" />
                         </div>
                         <span className="font-bold text-gray-500 group-hover:text-blue-600">
-                          Ajouter des photos (jusqu’à 10)
+                          {t("add_photos")}
                         </span>
                       </button>
                     )}
                   </CldUploadWidget>
                 ) : (
                   <div className="w-full rounded-3xl border-2 border-dashed border-amber-200 bg-amber-50/60 dark:bg-amber-900/10 p-5 text-amber-900 dark:text-amber-200">
-                    <div className="font-extrabold mb-1">Cloudinary non configuré</div>
-                    <div className="text-sm font-medium">
-                      Ajoute <code className="font-mono">NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME</code> et{" "}
-                      <code className="font-mono">NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET</code> dans{" "}
-                      <code className="font-mono">.env</code>, puis redémarre{" "}
-                      <code className="font-mono">npm run dev</code>.
-                    </div>
+                    <div className="font-extrabold mb-1">{t("cloudinary_not_configured")}</div>
+                    
                   </div>
                 )}
               </div>

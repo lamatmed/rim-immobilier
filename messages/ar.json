@@ -118,6 +118,9 @@
     "empty_title": "لم يتم العثور على مستخدمين",
     "empty_search_description": "لا يوجد مستخدمين مطابقين لرقم الهاتف هذا",
     "empty_description": "قائمة المستخدمين فارغة",
-    "clear_filter_button": "مسح الفلتر"
+    "properties_total_count": "{count, plural, =0 {لا توجد إعلانات} =1 {إعلان واحد} other {{count} إعلانات}} في المجموع",
+    "clear_filter_button": "مسح الفلتر",
+    "add_photos": "إضافة صور (حتى 10)",
+     "cloudinary_not_configured": "Cloudinary غير مُهيأ"
   }
 }
