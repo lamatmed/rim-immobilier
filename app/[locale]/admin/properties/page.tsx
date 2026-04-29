@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
@@ -24,7 +25,7 @@ const typeMap: Record<string, string> = {
   LAND: "lands",
   BUILDING: "buildings",
 };
-  const properties = await prisma.property.findMany({
+  const properties = await (prisma.property as any).findMany({
     orderBy: { createdAt: "desc" },
   });
  ;

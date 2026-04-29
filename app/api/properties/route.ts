@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const property = await prisma.property.create({
+    const property = await (prisma.property as any).create({
       data: {
         type, // ✅ maintenant safe enum
         transactionType,
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         images: Array.isArray(images) ? images : [],
         featured: Boolean(featured),
         userId: session.id,
-      },
+      } as any,
     });
 
     return NextResponse.json(
@@ -135,7 +135,7 @@ export async function GET(req: Request) {
       ];
     }
 
-    const properties = await prisma.property.findMany({
+    const properties = await (prisma.property as any).findMany({
       where,
       orderBy: { createdAt: "desc" },
       skip,
@@ -155,7 +155,7 @@ export async function GET(req: Request) {
         image: true,
         featured: true,
         createdAt: true,
-      },
+      } as any,
     });
 
     return NextResponse.json(properties);

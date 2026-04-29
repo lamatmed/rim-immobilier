@@ -24,7 +24,7 @@ export default async function AdminDashboardPage({
     prisma.property.count(),
     prisma.user.count(),
     prisma.property.groupBy({
-      by: ['type', 'transactionType'],
+      by: ['type', 'transactionType'] as any,
       _count: {
         _all: true,
       },

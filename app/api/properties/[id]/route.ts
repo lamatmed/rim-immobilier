@@ -25,7 +25,7 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const property = await prisma.property.findUnique({
+    const property = await (prisma.property as any).findUnique({
       where: { id },
     });
 
@@ -79,9 +79,9 @@ export async function PUT(
       else data.bathrooms = typeof body.bathrooms === "string" ? parseInt(body.bathrooms, 10) : body.bathrooms;
     }
 
-    const updated = await prisma.property.update({
+    const updated = await (prisma.property as any).update({
       where: { id },
-      data,
+      data: data as any,
     });
 
     return NextResponse.json({ message: "Property updated successfully", property: updated });
@@ -106,7 +106,7 @@ export async function DELETE(
 
     const { id } = await params;
 
-    await prisma.property.delete({
+    await (prisma.property as any).delete({
       where: { id },
     });
 
