@@ -127,6 +127,7 @@
     "empty_search_description": "Aucun utilisateur ne correspond à ce numéro de téléphone",
     "empty_description": "La liste des utilisateurs est vide",
     "properties_total_count":"{count, plural, =0 {Aucune annonce} =1 {1 annonce} other {{count} annonces}} au total",
+    "search_properties_placeholder": "Rechercher par emplacement (maison, quartier...)",
     "clear_filter_button": "Effacer le filtre",
     "cloudinary_not_configured": "Cloudinary n'est pas configuré",
     "add_photos": "Ajouter des photos (jusqu’à 10)",

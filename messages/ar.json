@@ -127,6 +127,7 @@
     "empty_search_description": "لا يوجد مستخدمين مطابقين لرقم الهاتف هذا",
     "empty_description": "قائمة المستخدمين فارغة",
     "properties_total_count": "{count, plural, =0 {لا توجد إعلانات} =1 {إعلان واحد} other {{count} إعلانات}} في المجموع",
+    "search_properties_placeholder": "البحث حسب الموقع (منزل، حي...)",
     "clear_filter_button": "مسح الفلتر",
     "add_photos": "إضافة صور (حتى 10)",
      "cloudinary_not_configured": "Cloudinary غير مُهيأ",

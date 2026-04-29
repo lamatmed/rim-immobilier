@@ -9,10 +9,14 @@ import Image from "next/image";
 
 export default async function AdminPropertiesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ q?: string }>;
 }) {
   const { locale } = await params;
+  const { q } = await searchParams;
+  const searchQuery = q || "";
   const t = await getTranslations({ locale, namespace: "Admin" });
  const c = await getTranslations({ locale, namespace: "Categories" }); 
   const session = await getSession();
@@ -26,6 +30,12 @@ const typeMap: Record<string, string> = {
   BUILDING: "buildings",
 };
   const properties = await (prisma.property as any).findMany({
+    where: searchQuery ? {
+      OR: [
+        { location: { contains: searchQuery, mode: "insensitive" } },
+        { locationAr: { contains: searchQuery } },
+      ]
+    } : undefined,
     orderBy: { createdAt: "desc" },
   });
  ;
@@ -55,6 +65,36 @@ const typeMap: Record<string, string> = {
             + {t("add_property_title")}
           </Link>
         </div>
+      </div>
+
+      {/* Barre de recherche */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+        <form method="GET" className="flex flex-col sm:flex-row gap-3">
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              name="q"
+              defaultValue={searchQuery}
+              placeholder={t("search_properties_placeholder") || "Rechercher par emplacement..."}
+              className="w-full bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-xl py-2.5 pl-4 pr-10 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            />
+            {searchQuery && (
+              <Link
+                href="/admin/properties"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+              >
+                ✕
+              </Link>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="px-6 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          >
+            <span>🔍</span>
+            <span>{t("users_search_button")}</span>
+          </button>
+        </form>
       </div>
 
       {/* Liste des propriétés */}
