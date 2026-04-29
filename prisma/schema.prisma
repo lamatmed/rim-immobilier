@@ -47,4 +47,7 @@ model Property {
   // Admin Relation
   userId      String
   author      User         @relation(fields: [userId], references: [id])
+  @@index([type])          // 🔥 filtre category rapide
+  @@index([location])      // 🔥 search rapide
+  @@index([createdAt])     // 🔥 pagination rapide
 }

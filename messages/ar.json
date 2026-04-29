@@ -12,7 +12,8 @@
     "featured": "عقارات مميزة",
     "view_all": "عرض الكل",
     "whatsapp_message": "مرحبًا، أنا مهتم بأحد عقاراتكم.",
-    "contact_whatsapp_aria": "تواصل معنا عبر واتساب"
+    "contact_whatsapp_aria": "تواصل معنا عبر واتساب",
+    "no_more_results": "لا توجد نتائج أخرى"
   },
   "Categories": {
     "all": "الكل",
