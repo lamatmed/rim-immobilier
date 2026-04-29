@@ -75,7 +75,7 @@ const typeMap: Record<string, string> = {
           </div>
         ) : (
           <div className="divide-y divide-gray-100 dark:divide-gray-700">
-           {properties.map((p) => {
+           {properties.map((p: any) => {
               const location =
                 locale === "ar" ? p.locationAr : p.location;
 
