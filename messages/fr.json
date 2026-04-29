@@ -21,7 +21,9 @@
     "apartments": "Appartements",
     "lands": "Terrains",
     "buildings": "Immeubles",
-    "listings": "annonces"
+    "listings": "annonces",
+    "FOR_SALE": "À vendre",
+    "FOR_RENT": "À louer"
   },
   "Favorites": {
     "empty_title": "Aucun favori",
@@ -33,7 +35,11 @@
     "baths": "SdB",
     "sqm": "m²",
     "contact_agent": "Contacter l'Agent",
-    "description": "Description"
+    "description": "Description",
+    "asked_price": "Prix demandé",
+    "location": "Localisation",
+    "not_found": "Propriété non trouvée",
+    "not_found_desc": "La propriété que vous recherchez n'existe pas ou a été supprimée"
   },
   "Profile": {
     "visitor": "Visiteur",
@@ -105,6 +111,7 @@
     "bathrooms": "Salles de bain",
     "featured": "Mettre à la Une",
     "upload_image": "Envoyer une photo",
+    "transaction_type": "Type de transaction",
     "submit": "Enregistrer le bien",
     "save": "Enregistrer les modifications",
     "success": "Bien ajouté avec succès !",
@@ -123,6 +130,14 @@
     "clear_filter_button": "Effacer le filtre",
     "cloudinary_not_configured": "Cloudinary n'est pas configuré",
     "add_photos": "Ajouter des photos (jusqu’à 10)",
-    "price_suffix":"MRU"
+    "price_suffix":"MRU",
+    "detailed_stats": "Statistiques détaillées",
+    "Category_HOUSE": "Maisons",
+    "Category_APARTMENT": "Appartements",
+    "Category_LAND": "Terrains",
+    "Category_BUILDING": "Immeubles",
+    "sale": "Vente",
+    "rent": "Location",
+    "total": "Total"
   }
 }

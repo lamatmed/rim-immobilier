@@ -17,7 +17,8 @@ import {
   Plus,
   CheckCircle,
   Star,
-  Trash2
+  Trash2,
+  Tag
 } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
@@ -35,6 +36,7 @@ export default function AddPropertyPage() {
   
   const [formData, setFormData] = useState({
     type: "HOUSE",
+    transactionType: "FOR_SALE",
     price: "",
     location: "",
     locationAr: "",
@@ -51,6 +53,11 @@ export default function AddPropertyPage() {
     { id: "APARTMENT", name: tCat("apartments") },
     { id: "LAND", name: tCat("lands") },
     { id: "BUILDING", name: tCat("buildings") },
+  ];
+
+  const transactionTypes = [
+    { id: "FOR_SALE", name: tCat("FOR_SALE") },
+    { id: "FOR_RENT", name: tCat("FOR_RENT") },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -134,11 +141,11 @@ export default function AddPropertyPage() {
           <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Type */}
-            <div className="md:col-span-2">
+            <div>
               <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 ml-1">
                 {t("type")}
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {propertyTypes.map((type) => (
                   <button
                     key={type.id}
@@ -147,6 +154,29 @@ export default function AddPropertyPage() {
                     className={`py-3 px-4 rounded-2xl text-sm font-bold transition-all border ${
                       formData.type === type.id
                         ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200"
+                        : "bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-100 dark:border-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    {type.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Transaction Type */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 ml-1">
+                {t("transaction_type")}
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                {transactionTypes.map((type) => (
+                  <button
+                    key={type.id}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, transactionType: type.id })}
+                    className={`py-3 px-4 rounded-2xl text-sm font-bold transition-all border ${
+                      formData.transactionType === type.id
+                        ? "bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-200"
                         : "bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-100 dark:border-gray-700 hover:bg-gray-100"
                     }`}
                   >

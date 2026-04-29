@@ -13,6 +13,7 @@ import PropertySkeleton from "@/components/property/PropertySkeleton";
 interface Property {
   id: string;
   type: string;
+  transactionType: string;
   price: number;
   location: string;
   locationAr: string;
@@ -32,6 +33,7 @@ export default function PropertyPage() {
   const locale = params.locale as string;
   
   const t = useTranslations("Property");
+  const c = useTranslations("Categories");
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -77,12 +79,10 @@ export default function PropertyPage() {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            {locale === "ar" ? "عقار غير موجود" : "Propriété non trouvée"}
+            {t("not_found")}
           </h2>
           <p className="text-gray-500">
-            {locale === "ar" 
-              ? "العقار الذي تبحث عنه غير موجود أو تم حذفه"
-              : "La propriété que vous recherchez n'existe pas ou a été supprimée"}
+            {t("not_found_desc")}
           </p>
         </div>
       </div>
@@ -124,10 +124,19 @@ export default function PropertyPage() {
           
           <div className="mb-8">
             <div className="flex justify-between items-start mb-4">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">
-                {formattedPrice} <span className="text-blue-600 text-xl">{t("price_suffix")}</span>
-              </h1>
-              <button className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+              <div>
+                <div className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-2 ${
+                  property.transactionType === "FOR_RENT" 
+                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
+                    : "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
+                }`}>
+                  {c(property.transactionType as any)}
+                </div>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">
+                  {formattedPrice} <span className="text-blue-600 text-xl">{t("price_suffix")}</span>
+                </h1>
+              </div>
+              <button className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors mt-8">
                 <Heart className="w-5 h-5 text-gray-600 dark:text-gray-300" />
               </button>
             </div>
@@ -138,7 +147,7 @@ export default function PropertyPage() {
               </div>
               <div>
                 <p className="text-[10px] font-bold text-blue-600/60 uppercase tracking-widest mb-0.5">
-                  {locale === "ar" ? "الموقع" : "Localisation"}
+                  {t("location")}
                 </p>
                 <p className="text-lg font-extrabold text-gray-900 dark:text-white leading-snug break-words">
                   {location}
@@ -186,7 +195,7 @@ export default function PropertyPage() {
       <div className="fixed bottom-16 sm:bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 z-40">
         <div className="container mx-auto max-w-4xl flex items-center justify-between">
           <div className="hidden sm:block">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Prix demandé</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t("asked_price")}</p>
             <p className="font-bold text-lg text-gray-900 dark:text-white">
               {formattedPrice} {t("price_suffix")}
             </p>

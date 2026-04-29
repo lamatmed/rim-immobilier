@@ -50,7 +50,7 @@ export default function TopHeader() {
         <div className="flex items-center gap-2">
           <div className="relative w-10 h-10 overflow-hidden rounded-lg">
             <Image
-              src="/icon-192x192.png"
+              src="/log.jpg"
               alt="Logo"
               fill
               sizes="40px"

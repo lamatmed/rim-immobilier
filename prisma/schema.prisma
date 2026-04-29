@@ -29,10 +29,16 @@ enum PropertyType {
   BUILDING
 }
 
+enum TransactionType {
+  FOR_SALE
+  FOR_RENT
+}
+
 model Property {
-  id          String       @id @default(cuid())
-  type        PropertyType
-  price       Float
+  id              String          @id @default(cuid())
+  type            PropertyType
+  transactionType TransactionType @default(FOR_SALE)
+  price           Float
   location    String
   locationAr  String
   bedrooms    Int?
@@ -48,6 +54,7 @@ model Property {
   userId      String
   author      User         @relation(fields: [userId], references: [id])
   @@index([type])          // 🔥 filtre category rapide
+  @@index([transactionType]) // 🔥 filtre vente/location rapide
   @@index([location])      // 🔥 search rapide
   @@index([createdAt])     // 🔥 pagination rapide
 }

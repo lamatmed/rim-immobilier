@@ -15,6 +15,7 @@ export default function HomePage() {
   const c = useTranslations("Categories");
 
   const [activeCategory, setActiveCategory] = useState("all");
+  const [activeTransaction, setActiveTransaction] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -38,7 +39,7 @@ export default function HomePage() {
   // ================= RESET =================
   useEffect(() => {
     setPage(1);
-  }, [activeCategory, debouncedSearch]);
+  }, [activeCategory, activeTransaction, debouncedSearch]);
 
   // ================= FETCH =================
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function HomePage() {
       setLoading(true);
 
       const res = await fetch(
-        `/api/properties?page=${page}&limit=12&category=${activeCategory}&search=${debouncedSearch}`
+        `/api/properties?page=${page}&limit=12&category=${activeCategory}&transactionType=${activeTransaction}&search=${debouncedSearch}`
       );
 
       const data = await res.json();
@@ -62,7 +63,7 @@ export default function HomePage() {
     }
 
     fetchProperties();
-  }, [page, activeCategory, debouncedSearch]);
+  }, [page, activeCategory, activeTransaction, debouncedSearch]);
 
   // ================= INFINITE SCROLL =================
   useEffect(() => {
@@ -77,6 +78,12 @@ export default function HomePage() {
     { id: "APARTMENT", name: c("apartments") },
     { id: "LAND", name: c("lands") },
     { id: "BUILDING", name: c("buildings") },
+  ];
+
+  const transactions = [
+    { id: "all", name: c("all") },
+    { id: "FOR_SALE", name: c("FOR_SALE") },
+    { id: "FOR_RENT", name: c("FOR_RENT") },
   ];
 
   return (
@@ -105,20 +112,40 @@ export default function HomePage() {
 
       {/* CATEGORIES */}
       <section className="container mx-auto px-4 py-6">
-        <div className="flex gap-3 overflow-x-auto mb-8">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-5 py-2 rounded-xl ${
-                activeCategory === cat.id
-                  ? "bg-black text-white"
-                  : "bg-gray-200 dark:bg-gray-700"
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+          {/* Category Filter */}
+          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all ${
+                  activeCategory === cat.id
+                    ? "bg-black dark:bg-white text-white dark:text-black shadow-lg"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Transaction Filter */}
+          <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+            {transactions.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setActiveTransaction(t.id)}
+                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  activeTransaction === t.id
+                    ? "bg-white dark:bg-gray-700 text-black dark:text-white shadow-sm"
+                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                }`}
+              >
+                {t.name}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* GRID */}

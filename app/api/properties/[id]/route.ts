@@ -2,10 +2,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import type { PropertyType } from "@prisma/client";
+import type { PropertyType, TransactionType } from "@prisma/client";
 
 type UpdateBody = Partial<{
   type: PropertyType;
+  transactionType: TransactionType;
   price: string | number;
   location: string;
   locationAr: string;
@@ -58,6 +59,7 @@ export async function PUT(
     const data: any = {};
 
     if (body.type) data.type = body.type;
+    if (body.transactionType) data.transactionType = body.transactionType;
     if (body.location !== undefined) data.location = body.location;
     if (body.locationAr !== undefined) data.locationAr = body.locationAr;
     if (body.image !== undefined) data.image = body.image;

@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Link } from "@/i18n/routing";
-import { LayoutDashboard, Building2, Users } from "lucide-react";
+import { LayoutDashboard, Building2, Users, Home, Building, Map, Landmark } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
 
@@ -20,10 +20,29 @@ export default async function AdminDashboardPage({
     redirect(`/${locale}/`);
   }
 
-  const [totalProperties, totalUsers] = await Promise.all([
+  const [totalProperties, totalUsers, propertyStats] = await Promise.all([
     prisma.property.count(),
     prisma.user.count(),
+    prisma.property.groupBy({
+      by: ['type', 'transactionType'],
+      _count: {
+        _all: true,
+      },
+    }),
   ]);
+
+  const statsMap = propertyStats.reduce((acc: any, curr) => {
+    const key = `${curr.type}_${curr.transactionType}`;
+    acc[key] = curr._count._all;
+    return acc;
+  }, {});
+
+  const categoriesStats = [
+    { id: "HOUSE", name: t("Category_HOUSE") || "Maisons", icon: Home, color: "blue" },
+    { id: "APARTMENT", name: t("Category_APARTMENT") || "Appartements", icon: Building, color: "emerald" },
+    { id: "LAND", name: t("Category_LAND") || "Terrains", icon: Map, color: "orange" },
+    { id: "BUILDING", name: t("Category_BUILDING") || "Immeubles", icon: Landmark, color: "purple" },
+  ];
 
   const cards = [
     {
@@ -57,7 +76,7 @@ export default async function AdminDashboardPage({
 
       
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
         {cards.map((c) => {
           const Icon = c.icon;
           return (
@@ -72,7 +91,7 @@ export default async function AdminDashboardPage({
                     <Icon className="w-6 h-6" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-extrabold text-gray-900 dark:text-white">
+                    <div className="font-extrabold text-gray-900 dark:text-white text-lg">
                       {c.title}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -81,12 +100,64 @@ export default async function AdminDashboardPage({
                   </div>
                 </div>
                 <div className={`bg-${c.color}-50 dark:bg-${c.color}-900/20 rounded-xl px-3 py-2 text-center min-w-[50px]`}>
-                  <div className={`text-xl font-bold text-${c.color}-600 dark:text-${c.color}-400`}>
+                  <div className={`text-2xl font-black text-${c.color}-600 dark:text-${c.color}-400`}>
                     {c.count}
                   </div>
                 </div>
               </div>
             </Link>
+          );
+        })}
+      </div>
+
+      <div className="flex items-center gap-2 mb-6">
+        <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+          {t("detailed_stats")}
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {categoriesStats.map((cat) => {
+          const Icon = cat.icon;
+          const sales = statsMap[`${cat.id}_FOR_SALE`] || 0;
+          const rentals = statsMap[`${cat.id}_FOR_RENT`] || 0;
+
+          return (
+            <div 
+              key={cat.id}
+              className="bg-white dark:bg-gray-800 rounded-3xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className={`w-10 h-10 rounded-xl bg-${cat.color}-50 dark:bg-${cat.color}-900/20 text-${cat.color}-600 dark:text-${cat.color}-400 flex items-center justify-center`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+                <span className="font-bold text-gray-900 dark:text-white truncate">
+                  {cat.name}
+                </span>
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500 dark:text-gray-400 font-medium">{t("sale")}</span>
+                  <span className="font-black text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-900 px-2 py-1 rounded-lg">
+                    {sales}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500 dark:text-gray-400 font-medium">{t("rent")}</span>
+                  <span className="font-black text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-900 px-2 py-1 rounded-lg">
+                    {rentals}
+                  </span>
+                </div>
+                <div className="pt-2 mt-2 border-t border-gray-50 dark:border-gray-700 flex items-center justify-between text-xs">
+                  <span className="text-gray-400 uppercase tracking-tighter font-bold">{t("total")}</span>
+                  <span className="font-black text-blue-600 dark:text-blue-400">
+                    {sales + rentals}
+                  </span>
+                </div>
+              </div>
+            </div>
           );
         })}
       </div>

@@ -40,6 +40,7 @@ export default async function AdminEditPropertyPage({
             image: property.image,
             images: property.images,
             featured: property.featured,
+            transactionType: property.transactionType,
           }}
         />
       </div>

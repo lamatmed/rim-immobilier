@@ -5,12 +5,13 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { MapPin, Bed, Bath, Maximize } from "lucide-react";
-import type { PropertyType } from "@prisma/client";
+import type { PropertyType, TransactionType } from "@prisma/client";
 
 interface PropertyCardProps {
   property: {
     id: string;
     type: PropertyType | string;
+    transactionType: TransactionType | string;
     price: number;
     location: string;
     locationAr: string;
@@ -61,10 +62,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {property.featured && (
-            <div className="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+            <div className="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-10">
               {locale === "ar" ? "مميز" : "Featured"}
             </div>
           )}
+          <div className={`absolute top-3 left-3 ${property.transactionType === 'FOR_RENT' ? 'bg-emerald-500' : 'bg-orange-500'} text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-lg uppercase tracking-tighter z-10`}>
+            {c(property.transactionType as any)}
+          </div>
         </div>
 
         {/* Content */}

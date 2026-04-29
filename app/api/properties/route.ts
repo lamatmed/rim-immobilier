@@ -1,12 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { PropertyType } from "@prisma/client";
+import { PropertyType, TransactionType } from "@prisma/client";
 
 // ===================== HELPERS =====================
 function isValidPropertyType(value: string): value is PropertyType {
   return Object.values(PropertyType).includes(value as PropertyType);
+}
+
+function isValidTransactionType(value: string): value is TransactionType {
+  return Object.values(TransactionType).includes(value as TransactionType);
 }
 
 // ===================== POST =====================
@@ -25,6 +30,7 @@ export async function POST(request: Request) {
 
     const {
       type,
+      transactionType,
       price,
       location,
       locationAr,
@@ -40,6 +46,8 @@ export async function POST(request: Request) {
     if (
       !type ||
       !isValidPropertyType(type) ||
+      !transactionType ||
+      !isValidTransactionType(transactionType) ||
       !price ||
       !location ||
       !locationAr ||
@@ -55,6 +63,7 @@ export async function POST(request: Request) {
     const property = await prisma.property.create({
       data: {
         type, // ✅ maintenant safe enum
+        transactionType,
         price: Number(price),
         location,
         locationAr,
@@ -89,6 +98,7 @@ export async function GET(req: Request) {
     const page = Number(searchParams.get("page") || 1);
     const limit = Number(searchParams.get("limit") || 12);
     const categoryParam = searchParams.get("category");
+    const transactionTypeParam = searchParams.get("transactionType");
     const search = searchParams.get("search") || "";
 
     const skip = (page - 1) * limit;
@@ -99,6 +109,12 @@ export async function GET(req: Request) {
     if (categoryParam && categoryParam !== "all") {
       if (isValidPropertyType(categoryParam)) {
         where.type = categoryParam;
+      }
+    }
+
+    if (transactionTypeParam && transactionTypeParam !== "all") {
+      if (isValidTransactionType(transactionTypeParam)) {
+        where.transactionType = transactionTypeParam;
       }
     }
 
@@ -129,6 +145,7 @@ export async function GET(req: Request) {
       select: {
         id: true,
         type: true,
+        transactionType: true,
         price: true,
         location: true,
         locationAr: true,
