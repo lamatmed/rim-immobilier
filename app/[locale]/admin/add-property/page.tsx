@@ -18,7 +18,10 @@ import {
   CheckCircle,
   Star,
   Trash2,
-  Tag
+  Tag,
+  Calendar,
+  FileText,
+  Globe
 } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
@@ -46,6 +49,9 @@ export default function AddPropertyPage() {
     image: "",
     images: [] as string[],
     featured: false,
+    announcementDate: new Date().toISOString().split("T")[0],
+    dossierType: "",
+    resource: "",
   });
 
   const propertyTypes = [
@@ -289,6 +295,57 @@ export default function AddPropertyPage() {
                   />
                 </div>
                </div>
+            </div>
+            
+
+            {/* Announcement Date */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">
+                {t("announcement_date")}
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 rtl:right-4 rtl:left-auto" />
+                <input
+                  type="date"
+                  className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl py-4 pl-12 pr-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all rtl:pr-12 rtl:pl-4"
+                  value={formData.announcementDate}
+                  onChange={(e) => setFormData({ ...formData, announcementDate: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Dossier Type */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">
+                {t("dossier_type")}
+              </label>
+              <div className="relative">
+                <FileText className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 rtl:right-4 rtl:left-auto" />
+                <input
+                  type="text"
+                  placeholder="Ex: Titre foncier"
+                  className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl py-4 pl-12 pr-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all rtl:pr-12 rtl:pl-4"
+                  value={formData.dossierType}
+                  onChange={(e) => setFormData({ ...formData, dossierType: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Resource */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">
+                {t("resource")}
+              </label>
+              <div className="relative">
+                <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 rtl:right-4 rtl:left-auto" />
+                <input
+                  type="text"
+                  placeholder="Ex: Facebook, Agence..."
+                  className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl py-4 pl-12 pr-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all rtl:pr-12 rtl:pl-4"
+                  value={formData.resource}
+                  onChange={(e) => setFormData({ ...formData, resource: e.target.value })}
+                />
+              </div>
             </div>
 
             {/* Cloudinary Image Upload */}

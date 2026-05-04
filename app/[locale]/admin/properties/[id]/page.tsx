@@ -41,6 +41,9 @@ export default async function AdminEditPropertyPage({
             images: property.images,
             featured: property.featured,
             transactionType: property.transactionType,
+            announcementDate: property.announcementDate,
+            dossierType: property.dossierType,
+            resource: property.resource,
           }}
         />
       </div>

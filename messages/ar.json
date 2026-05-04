@@ -39,7 +39,10 @@
     "asked_price": "السعر المطلوب",
     "location": "الموقع",
     "not_found": "عقار غير موجود",
-    "not_found_desc": "العقار الذي تبحث عنه غير موجود أو تم حذفه"
+    "not_found_desc": "العقار الذي تبحث عنه غير موجود أو تم حذفه",
+    "announcement_date": "تاريخ الإعلان",
+    "dossier_type": "نوع الملف",
+    "resource": "المصدر"
   },
   "Profile": {
     "visitor": "زائر",
@@ -112,6 +115,9 @@
     "featured": "إضافة للعقارات المميزة",
     "upload_image": "رفع صورة",
     "transaction_type": "نوع المعاملة",
+    "announcement_date": "تاريخ الإعلان",
+    "dossier_type": "نوع الملف",
+    "resource": "المصدر",
     "submit": "حفظ العقار",
     "save": "حفظ التعديلات",
     "success": "تمت إضافة العقار بنجاح!",

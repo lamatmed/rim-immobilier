@@ -39,7 +39,10 @@
     "asked_price": "Prix demandé",
     "location": "Localisation",
     "not_found": "Propriété non trouvée",
-    "not_found_desc": "La propriété que vous recherchez n'existe pas ou a été supprimée"
+    "not_found_desc": "La propriété que vous recherchez n'existe pas ou a été supprimée",
+    "announcement_date": "Date d'annonce",
+    "dossier_type": "Type dossier",
+    "resource": "Ressource"
   },
   "Profile": {
     "visitor": "Visiteur",
@@ -112,6 +115,9 @@
     "featured": "Mettre à la Une",
     "upload_image": "Envoyer une photo",
     "transaction_type": "Type de transaction",
+    "announcement_date": "Date d'annonce",
+    "dossier_type": "Type dossier",
+    "resource": "Ressource",
     "submit": "Enregistrer le bien",
     "save": "Enregistrer les modifications",
     "success": "Bien ajouté avec succès !",

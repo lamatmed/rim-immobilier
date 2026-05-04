@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 "use client";
@@ -25,6 +26,9 @@ interface Property {
   featured: boolean;
   createdAt: string;
   updatedAt: string;
+  announcementDate?: string;
+  dossierType?: string;
+  resource?: string;
 }
 
 export default function PropertyPage() {
@@ -174,6 +178,30 @@ export default function PropertyPage() {
                 <Bath className="w-6 h-6 text-blue-500 mb-2" />
                 <span className="font-extrabold text-gray-900 dark:text-white">{property.bathrooms}</span>
                 <span className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">{t("baths")}</span>
+              </div>
+            )}
+          </div>
+
+          {/* New Metadata Fields */}
+          <div className="grid grid-cols-2 gap-4 mb-8">
+            {property.announcementDate && (
+              <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-800">
+                <p className="text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-1">{t("announcement_date") || "Date d'annonce"}</p>
+                <p className="font-bold text-gray-900 dark:text-white">
+                  {new Date(property.announcementDate).toLocaleDateString(locale)}
+                </p>
+              </div>
+            )}
+            {property.dossierType && (
+              <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-800">
+                <p className="text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-1">{t("dossier_type") || "Type dossier"}</p>
+                <p className="font-bold text-gray-900 dark:text-white">{property.dossierType}</p>
+              </div>
+            )}
+            {property.resource && (
+              <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-800">
+                <p className="text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-1">{t("resource") || "Ressource"}</p>
+                <p className="font-bold text-gray-900 dark:text-white">{property.resource}</p>
               </div>
             )}
           </div>

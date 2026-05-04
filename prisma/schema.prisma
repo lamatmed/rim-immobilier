@@ -50,6 +50,12 @@ model Property {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   
+  // Nouveaux champs
+ 
+  announcementDate DateTime?
+  dossierType      String?
+  resource         String?
+  
   // Admin Relation
   userId      String
   author      User         @relation(fields: [userId], references: [id])

@@ -16,6 +16,9 @@ type UpdateBody = Partial<{
   image: string;
   images: string[];
   featured: boolean;
+  announcementDate: string | Date;
+  dossierType: string;
+  resource: string;
 }>;
 
 export async function GET(
@@ -65,6 +68,9 @@ export async function PUT(
     if (body.image !== undefined) data.image = body.image;
     if (body.images !== undefined) data.images = Array.isArray(body.images) ? body.images : [];
     if (body.featured !== undefined) data.featured = !!body.featured;
+    if (body.announcementDate !== undefined) data.announcementDate = body.announcementDate ? new Date(body.announcementDate) : null;
+    if (body.dossierType !== undefined) data.dossierType = body.dossierType;
+    if (body.resource !== undefined) data.resource = body.resource;
 
     if (body.price !== undefined) data.price = typeof body.price === "string" ? parseFloat(body.price) : body.price;
     if (body.area !== undefined) data.area = typeof body.area === "string" ? parseFloat(body.area) : body.area;

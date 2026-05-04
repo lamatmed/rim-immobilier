@@ -169,6 +169,18 @@ const typeMap: Record<string, string> = {
                                 ⭐ {t("featured_badge")}
                               </span>
                             )}
+
+                            {p.dossierType && (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 dark:bg-purple-900/20 dark:text-purple-400 border border-purple-100 dark:border-purple-800">
+                                📄 {p.dossierType}
+                              </span>
+                            )}
+
+                            {p.resource && (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                                🔗 {p.resource}
+                              </span>
+                            )}
                           </div>
                         </div>
 

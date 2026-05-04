@@ -40,6 +40,9 @@ export async function POST(request: Request) {
       image,
       images,
       featured,
+      announcementDate,
+      dossierType,
+      resource,
     } = body;
 
     // ✅ Validation forte
@@ -73,6 +76,9 @@ export async function POST(request: Request) {
         image,
         images: Array.isArray(images) ? images : [],
         featured: Boolean(featured),
+        announcementDate: announcementDate ? new Date(announcementDate) : undefined,
+        dossierType,
+        resource,
         userId: session.id,
       } as any,
     });
@@ -155,6 +161,9 @@ export async function GET(req: Request) {
         image: true,
         featured: true,
         createdAt: true,
+        announcementDate: true,
+        dossierType: true,
+        resource: true,
       } as any,
     });
 
