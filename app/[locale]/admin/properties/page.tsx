@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import DeletePropertyButton from "@/components/admin/DeletePropertyButton";
 import Image from "next/image";
+import ExportPdfButton from "@/components/admin/ExportPdfButton";
 
 export default async function AdminPropertiesPage({
   params,
@@ -38,6 +39,13 @@ const typeMap: Record<string, string> = {
     } : undefined,
     orderBy: { createdAt: "desc" },
   });
+  
+  const serializedProperties = properties.map((p: any) => ({
+    ...p,
+    createdAt: p.createdAt?.toISOString() || "",
+    updatedAt: p.updatedAt?.toISOString() || "",
+    announcementDate: p.announcementDate?.toISOString() || null,
+  }));
  ;
   return (
     <div className="container mx-auto px-4 py-6 sm:py-10 pb-28 max-w-6xl">
@@ -51,13 +59,14 @@ const typeMap: Record<string, string> = {
             {t("properties_total_count", { count: properties.length })}
           </p>
         </div>
-        <div className="flex items-center gap-3 w-full sm:w-auto">
+        <div className="flex items-center gap-3 w-full sm:w-auto flex-wrap md:flex-nowrap">
           <Link
             href="/admin/dashboard"
             className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-medium transition-all duration-200 text-center"
           >
             ← {t("dashboard_button")}
           </Link>
+          <ExportPdfButton properties={serializedProperties} />
           <Link
             href="/admin/add-property"
             className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-medium transition-all duration-200 text-center shadow-lg shadow-blue-600/20"

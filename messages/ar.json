@@ -145,6 +145,7 @@
      "Category_BUILDING": "عمارات",
      "sale": "بيع",
      "rent": "تأجير",
-     "total": "الإجمالي"
+     "total": "الإجمالي",
+     "export_pdf": "تصدير بصيغة PDF"
   }
 }
