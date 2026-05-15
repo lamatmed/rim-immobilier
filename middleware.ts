@@ -2,10 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 import { jwtVerify } from 'jose';
+import { getSuspendedHtml } from './lib/suspended';
 
 const intlMiddleware = createMiddleware(routing);
 
 export default async function middleware(request: NextRequest) {
+  // Suspension check
+  if (process.env.APP_SUSPENDED === 'true') {
+    return new NextResponse(getSuspendedHtml(), {
+      status: 402,
+      headers: { 'Content-Type': 'text/html; charset=utf-8' }
+    });
+  }
+
   const { pathname } = request.nextUrl;
 
   // 1. Logic for Protected Routes (Admin / Profile)
